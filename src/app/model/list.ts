@@ -1,10 +1,10 @@
 import { Task } from "./task";
 
 export interface TodoList {
-    // createTime: Date;
+    createTime: Date;
     creator: String;
-    // sharewith:String[];
+    sharewith:String[];
     title:String;
-    // tasks:Task[];
-    // deadline:Date;
+    tasks:Task[];
+    deadline?:Date;
 }

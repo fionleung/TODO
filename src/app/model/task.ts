@@ -7,7 +7,7 @@ export interface Task {
     history:History[];
 }
 
-interface History {
+export interface History {
     edit_time:Date;
     edit_person:String;
     content?:String;

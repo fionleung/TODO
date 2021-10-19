@@ -18,11 +18,11 @@ module.exports = (app) => {
   });
 
   app.post(`/api/list`, async (req, res) => {
-    // let post = await Post.create(req.body);
-    // return res.status(201).send({
-    //   error: false,
-    //   post
-    // })
+    let list = await List.create(req.body);
+    return res.status(201).send({
+      error: false,
+      list
+    })
   })
 
   

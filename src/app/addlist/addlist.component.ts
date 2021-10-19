@@ -7,7 +7,8 @@ import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import { Task } from '../model/task';
 import {MatTable} from '@angular/material/table';
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
+import { TodoList } from '../model/list';
+import { ListService } from '../shared/list.service';
 
 export interface taskinput{
   content :string,
@@ -52,7 +53,7 @@ export class AddlistComponent implements OnInit {
   displayedColumns: string[] = ['task-content', 'task-person', 'task-remove'];
   
 
-  constructor(private fb:FormBuilder) { 
+  constructor(private fb:FormBuilder, private listservice:ListService) { 
     //for tag
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -132,6 +133,18 @@ submit(){
      }
       return acc;
    },[]);  
-   console.log(tasklist);
+   let newlist: TodoList ={
+    createTime: new Date(),
+    creator: "user",
+    sharewith:this.people,
+    title:this.title.value,
+    tasks:tasklist,
+   }
+   if (this.deadline) newlist.deadline=this.deadline;
+   this.listservice.addList(newlist).subscribe(res =>{
+     console.log(res);
+   });
+
+   
 }
 }
