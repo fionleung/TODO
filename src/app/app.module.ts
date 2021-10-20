@@ -22,6 +22,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTableModule} from '@angular/material/table';
+import {MatCardModule} from '@angular/material/card';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 import { ListOfListComponent } from './list-of-list/list-of-list.component';
@@ -29,6 +31,9 @@ import { HomeComponent } from './home/home.component';
 import { notificationComponent } from './notification/notification.component';
 import { AddlistComponent } from './addlist/addlist.component';
 import { NavComponent } from './nav/nav.component';
+import { AuthComponent } from './auth/auth.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -39,6 +44,9 @@ import { NavComponent } from './nav/nav.component';
     notificationComponent,
     AddlistComponent,
     NavComponent,
+    AuthComponent,
+    LoginComponent,
+    RegisterComponent,
  
   ],
   imports: [
@@ -63,7 +71,9 @@ import { NavComponent } from './nav/nav.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDividerModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule,
+    MatSnackBarModule
    
     
   ],

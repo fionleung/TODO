@@ -9,11 +9,11 @@
     <mat-chip-list #chipList aria-label="tag selection">
       <mat-chip
         *ngFor="let tag of tags"
-        [selectable]=true
-        [removable]="removable"
+        selectable=true
+        removable =true
         (removed)="remove(tag,tags)">
         {{tag}}
-        <button matChipRemove *ngIf="removable">
+        <button matChipRemove >
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
@@ -38,11 +38,11 @@
     <mat-chip-list #chipList2 aria-label="tag selection">
       <mat-chip
         *ngFor="let p of people"
-        [selectable]="selectable"
-        [removable]="removable"
+        selectable=true
+        removable=true
         (removed)="remove(p,people)">
         {{p}}
-        <button matChipRemove *ngIf="removable">
+        <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>

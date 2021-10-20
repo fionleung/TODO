@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-
+ 
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb+srv://"+process.env.DB_USER+":"+process.env.DB_PASS+"@todo.6ccrv.mongodb.net/TodoDB",{
     useNewUrlParser: true, 
@@ -17,6 +17,8 @@ mongoose.connect("mongodb+srv://"+process.env.DB_USER+":"+process.env.DB_PASS+"@
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 require('./server/routes/listRoutes')(app);
+require('./server/routes/userRoutes')(app);
+
 
 // Create link to Angular build directory
 // The `ng build` command will save the result

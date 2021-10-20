@@ -13,7 +13,6 @@ export class ListService {
  
   getList(){
     return this.http.get<TodoList[]>(this.productsUrl)
-
   }
 
   addList(obj:any):Observable<any>{

@@ -26,9 +26,7 @@ export class AddlistComponent implements OnInit {
   //for title
   title = new FormControl('', [Validators.required]);
   //for tag
-  selectable = true;
-  removable = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+ separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
   tagoptions: string[] = ['One', 'Two', 'Three'];
   filteredTags!: Observable<string[]>;
