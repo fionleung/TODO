@@ -3,7 +3,7 @@ export interface Task {
     createdTime:Date;
     content:String;
     assignTo:String[];
-    status:String;
+    done:false;
     history:History[];
 }
 

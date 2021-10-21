@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 var uniqueValidator = require('mongoose-unique-validator');
-
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
 const userSchema = new Schema({
     name: {
@@ -19,19 +17,10 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    tags:[String],
+   created:[ObjectId],
+
 });
-
-userSchema.methods.hashPassword = async (password) => {
-    return await bcrypt.hashSync(password, 10);
-}
-
-userSchema.methods.compareUserPassword = async (inputtedPassword, hashedPassword) => {
-    return await bcrypt.compare(inputtedPassword, hashedPassword)
-}
-
-userSchema.methods.generateJwtToken = async (payload, secret, expires) => {
-    return jwt.sign(payload, secret, expires)
-}
 
 module.exports = mongoose.model("User", userSchema);
 userSchema.plugin(uniqueValidator, {

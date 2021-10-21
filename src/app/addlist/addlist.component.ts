@@ -9,6 +9,8 @@ import { Task } from '../model/task';
 import {MatTable} from '@angular/material/table';
 import { TodoList } from '../model/list';
 import { ListService } from '../shared/list.service';
+import { UserService } from '../shared/user.service';
+
 
 export interface taskinput{
   content :string,
@@ -23,15 +25,17 @@ export interface taskinput{
  // encapsulation: ViewEncapsulation.None
 })
 export class AddlistComponent implements OnInit {
+  user = localStorage.getItem('TodoUserId')+"";
   //for title
   title = new FormControl('', [Validators.required]);
   //for tag
+  tagOp!: Observable<String[]>;
  separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
   tagoptions: string[] = ['One', 'Two', 'Three'];
   filteredTags!: Observable<string[]>;
   tags: string[] = [];
-  allTags: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allTags: string[]=[];
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
   //for share with
   peopleCtrl =  new FormControl('', [Validators.email]);
@@ -51,7 +55,7 @@ export class AddlistComponent implements OnInit {
   displayedColumns: string[] = ['task-content', 'task-person', 'task-remove'];
   
 
-  constructor(private fb:FormBuilder, private listservice:ListService) { 
+  constructor(private fb:FormBuilder, private listservice:ListService, private userservice:UserService) { 
     //for tag
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -61,7 +65,7 @@ export class AddlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+   this.userservice.getTags(this.user).subscribe(res=>{this.allTags=res});
   } 
 
 
@@ -85,14 +89,14 @@ export class AddlistComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
+    this.tags.push(event.option.viewValue.toUpperCase());
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+    const filterValue = value.toUpperCase();
+    return this.allTags.filter(tag => tag.toUpperCase().includes(filterValue));
   }
  
   //for date
@@ -113,18 +117,18 @@ addTask(){
 removeTask(idx:number){
 this.dataSource = this.dataSource.filter(task => task.idx!= idx);
 this.table.renderRows();
-console.log(this.dataSource);
 }
 
 submit(){
+  
   let tasklist = this.dataSource.reduce((acc:Task[],cur) => {
      if(cur.content.length>0){
        let newitem:Task={
-        creator : "user",
+        creator : this.user,
         createdTime : new Date(),
         content : cur.content,
         assignTo : cur.assignTo,
-        status : "NEW",
+        done : false,
         history:[]
         }
        return [...acc,newitem];
@@ -133,16 +137,18 @@ submit(){
    },[]);  
    let newlist: TodoList ={
     createTime: new Date(),
-    creator: "user",
+    creator: this.user,
     sharewith:this.people,
     title:this.title.value,
     tasks:tasklist,
+    tags:this.tags,
    }
+   let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
+   this.userservice.addTags(this.user,newtags).subscribe(res=>{});
    if (this.deadline) newlist.deadline=this.deadline;
-   this.listservice.addList(newlist).subscribe(res =>{
-     console.log(res);
-   });
-
+   this.listservice.addList(newlist).subscribe(res =>{console.log(res)});
+  
+   
    
 }
 }

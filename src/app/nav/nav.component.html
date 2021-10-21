@@ -9,7 +9,7 @@
       <a mat-list-item routerLink="/notification" routerLinkActive="active">NOTIFICATION</a>
       <a mat-list-item routerLink="/lists" routerLinkActive="active">TODO LISTS</a>
       <a mat-list-item routerLink="/addlist" routerLinkActive="active">+ NEW LIST</a>
-      <a mat-list-item href="#">LOG OUT </a>
+      <a mat-list-item (click)=logout()>LOG OUT </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

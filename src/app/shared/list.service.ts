@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { TodoList } from '../model/list';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +18,7 @@ export class ListService {
     return this.http.post<TodoList[]>(this.productsUrl,obj);
   }
   
+ 
 
    
 }

@@ -6,6 +6,8 @@ const taskSchema = new mongoose.Schema({
    createdTime: Date,
    content: String,
    assignTo: [String],
+   done:Boolean,
+  
    //history:[]
 });
 
@@ -17,7 +19,7 @@ let todoSchema = new Schema({
    title: String,
    tasks: [taskSchema],
    deadline: Date,
-
+   tags:[String],
 });
 
 module.exports = mongoose.model('List', todoSchema)

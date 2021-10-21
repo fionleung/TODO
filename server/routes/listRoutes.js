@@ -1,7 +1,9 @@
 let List = require('../models/Todolist');
+let  authenticateJWT = require('../midware/auth');
+const user = require('../models/User');
 
 module.exports = (app) => {
-  app.get("/api/list", async (req, res) => {
+  app.get("/api/list",authenticateJWT,async (req, res) => {
     List.find((error, data) => {
       if (error) {
         return next(error)
@@ -17,8 +19,19 @@ module.exports = (app) => {
     // return res.status(200).send(posts);
   });
 
-  app.post(`/api/list`, async (req, res) => {
+  app.post(`/api/list`, authenticateJWT, async (req, res) => {
+    let userid = req.body.creator;
     let list = await List.create(req.body);
+   
+     user.findByIdAndUpdate(
+      userid,
+      {$push: {"created": list._id}},
+      { returnNewDocument: false },
+      function(err, model) {
+          console.log(err);
+      }
+  );
+   
     return res.status(201).send({
       error: false,
       list

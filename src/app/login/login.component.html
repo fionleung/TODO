@@ -3,15 +3,17 @@
           <mat-card-header color="primary">
             <mat-card-title>Login Form</mat-card-title>
           </mat-card-header>
-          <form>
-            <mat-form-field style="width: 100%;">
+          <form [formGroup]="loginForm" (submit)="loginUser()">
+            <mat-form-field style="width: 100%;margin-bottom: 30px;">
               <mat-label>Email</mat-label>
-              <input matInput>
+              <input matInput formControlName="email" required email>
+              <mat-error>Please enter a vaild email</mat-error>
             </mat-form-field>
             <br>
-            <mat-form-field style="width: 100%;">
+            <mat-form-field style="width: 100%;margin-bottom: 30px;">
               <mat-label>Password</mat-label>
-              <input matInput>
+              <input matInput type="password" formControlName="password" required>
+              <mat-error>Please enter the password</mat-error>
             </mat-form-field>
             <br>
             <button mat-raised-button color="primary">Submit</button>

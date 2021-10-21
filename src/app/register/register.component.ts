@@ -28,12 +28,10 @@ export class RegisterComponent implements OnInit {
  createUser(){
   this.userService.createNewUser(this.signupForm.value).subscribe(
     (data: any) => {
+      this.userService.setUserDate(data);
       this.router.navigate([ '/' ]);
     },
     (err: HttpErrorResponse) => {
-
-      console.log(err);
-      console.log(err.error.error.message);
       if (err.error.error.message) {
         
         this.snackBar.open(err.error.error.message);
