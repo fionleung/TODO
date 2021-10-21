@@ -18,7 +18,12 @@ export class ListService {
     return this.http.post<TodoList[]>(this.productsUrl,obj);
   }
   
- 
+  getListbyId(id:string){
+    return this.http.get<TodoList[]>(this.productsUrl+id);
+  }
 
-   
+  getListbyUser(id:String[]){
+    return this.http.post<TodoList[]>(this.productsUrl+'/listforuser',id);
+  }
+ 
 }

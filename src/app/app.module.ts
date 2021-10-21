@@ -35,6 +35,9 @@ import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HttpConfigInterceptor } from './ inteceptors/httpconfig.interceptor';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -74,7 +77,10 @@ import { HttpConfigInterceptor } from './ inteceptors/httpconfig.interceptor';
     MatDividerModule,
     MatTableModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressBarModule
    
     
   ],

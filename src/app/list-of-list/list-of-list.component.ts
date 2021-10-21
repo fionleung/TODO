@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListService } from '../shared/list.service';
 import { TodoList } from '../model/list';
-import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import { UserService } from '../shared/user.service';
+import { switchMap, tap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-list-of-list',
@@ -9,12 +13,45 @@ import { Observable } from 'rxjs';
   styleUrls: ['./list-of-list.component.scss']
 })
 export class ListOfListComponent implements OnInit {
-  lists$!: Observable<TodoList[]>;
+  user = localStorage.getItem('TodoUserId')+"";
+  displayedColumns: string[] = ['title', 'tags', 'progress'];
+  dataSource = new MatTableDataSource<TodoList>();
+  allTagsMap =new Map<string, string>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private listService:ListService) { }
+  
+  constructor(private listService:ListService,private userService:UserService) {  
+   this.userService.getListbyUserId(this.user).pipe(
+     switchMap((res) =>{
+       return this.listService.getListbyUser(res);
+     })
+   ).subscribe(res=>{
+    this.dataSource.data = res;
+    this.dataSource.paginator = this.paginator;
+   // this.dataSource.sort = this.sort;
+   });
+
+   this.userService.getTags(this.user).subscribe(res => {
+     res.forEach((tag:string) => { this.allTagsMap.set(tag,this.getRandomColor())})
+   });
+   }
 
   ngOnInit(): void {
-    this.lists$ = this.listService.getList();
+    
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  
+  getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 }
+
+//todo:search by tags, responsive table

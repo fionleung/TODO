@@ -8,4 +8,7 @@ export interface TodoList {
     tasks:Task[];
     deadline?:Date;
     tags:String[];
+    tasksnum:Number;
+    taskdone:Number;
+
 }

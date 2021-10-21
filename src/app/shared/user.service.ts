@@ -31,6 +31,10 @@ export class UserService {
   addTags(id:string,payload:String[]):Observable<any>{
     return this.http.post('/api/user/'+id+'/tags',payload);
   }
+
+  getListbyUserId(id:any):Observable<String[]>{
+    return this.http.get<String[]>("/api/user/"+id+"/lists");
+  }
 }
 
 

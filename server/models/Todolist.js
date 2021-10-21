@@ -20,6 +20,8 @@ let todoSchema = new Schema({
    tasks: [taskSchema],
    deadline: Date,
    tags:[String],
+   tasksnum:Number,
+   taskdone:Number
 });
 
 module.exports = mongoose.model('List', todoSchema)

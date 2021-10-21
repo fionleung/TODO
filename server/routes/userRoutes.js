@@ -1,4 +1,5 @@
 let User = require('../models/User');
+let List = require('../models/Todolist');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 let  authenticateJWT = require('../midware/auth');
@@ -83,6 +84,21 @@ module.exports = (app) => {
          }
      );
     })
+
+    app.get("/api/user/:id/lists",authenticateJWT, async (req, res) => {
+      let id=req.params.id;
+      console.log(id);
+      User.findById(id,(error, data) => {
+        if (error) {
+         return res.status(500).json({
+            msg: "Something Went Wrong"
+         })
+        } else {
+          return res.status(200).send(data.created)
+        }
+      })
+    })
+    
 }
 
 //todo:refresh jwt

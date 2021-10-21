@@ -14,10 +14,16 @@ module.exports = (app) => {
   })
 
   app.get(`/api/list/:id`, async (req, res) => {
-    // let page=req.params.page;
-    // let posts = await Post.find().sort({"createDate":-1}).skip(page*5).limit(5);
-    // return res.status(200).send(posts);
+    let id=req.params.id;
+    let lists = await List.find({_id:id});
+    return res.status(200).send(lists);
   });
+
+  app.post(`/api/list/listforuser`, async (req, res) => {
+    let lists = await List.find({_id:{"$in":req.body}}).sort({$natural:-1});
+    return res.status(200).send(lists);
+  });
+  
 
   app.post(`/api/list`, authenticateJWT, async (req, res) => {
     let userid = req.body.creator;
@@ -59,5 +65,7 @@ module.exports = (app) => {
     // })
 
   })
+
+
 
 }

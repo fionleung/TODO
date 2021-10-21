@@ -142,6 +142,8 @@ submit(){
     title:this.title.value,
     tasks:tasklist,
     tags:this.tags,
+    tasksnum:tasklist.length,
+    taskdone:0
    }
    let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
    this.userservice.addTags(this.user,newtags).subscribe(res=>{});
