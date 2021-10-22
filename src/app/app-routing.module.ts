@@ -6,6 +6,7 @@ import { notificationComponent } from './notification/notification.component';
 import { AddlistComponent } from './addlist/addlist.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './guard/auth.guard';
+import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'notification', component: notificationComponent},
   { path: 'addlist', component: AddlistComponent },
   { path: 'auth', component: AuthComponent },
+  { path: 'listdetail', component: ListComponent },
 ];
 
 @NgModule({

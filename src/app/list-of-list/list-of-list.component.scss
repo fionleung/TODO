@@ -1,7 +1,7 @@
 
 .table-container{
-    width:80%;
-    margin:40px auto;
+    margin:40px 10vw;
+   
 }
 .mat-table{
     width: 100%;
@@ -17,4 +17,22 @@
 
 .mat-progress-bar {
    margin-right: 3px;
+}
+
+.mat-row:hover .mat-cell {
+    background-color: rgba(241, 238, 238, 0.932);
+    cursor:pointer;
+  }
+
+  @media (max-width: 500px) {
+     
+      .table-container{
+        margin:40px 0;
+      }
+
+      .mat-cell{
+          padding:0 2px;
+      }
+   
+
 }

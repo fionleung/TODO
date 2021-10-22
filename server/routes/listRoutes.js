@@ -13,22 +13,32 @@ module.exports = (app) => {
     })
   })
 
-  app.get(`/api/list/:id`, async (req, res) => {
+  // app.get(`/api/list/:id`, async (req, res) => {
+  //   let id=req.params.id;
+  //   let lists = await List.find({_id:id});
+  //   return res.status(200).send(lists);
+  // });
+
+  app.put(`/api/list/:id`,authenticateJWT,async (req, res) => {
+    let reqid = req.userData.user._id;
+    let userid = req.body.creator;
+    if (userid!=reqid) return res.status(500).json({
+      msg: "You could only access your data"
+   });
     let id=req.params.id;
-    let lists = await List.find({_id:id});
+    let lists = await List.findByIdAndUpdate({_id:id},req.body);
     return res.status(200).send(lists);
   });
 
-  app.post(`/api/list/listforuser`, async (req, res) => {
-    let lists = await List.find({_id:{"$in":req.body}}).sort({$natural:-1});
+  app.post(`/api/list/listforuser`,authenticateJWT, async (req, res) => {
+    let reqid=req.userData.user._id;
+    let lists = await List.find({_id:{"$in":req.body},creater:reqid}).sort({$natural:-1});
     return res.status(200).send(lists);
   });
   
-
   app.post(`/api/list`, authenticateJWT, async (req, res) => {
     let userid = req.body.creator;
     let list = await List.create(req.body);
-   
      user.findByIdAndUpdate(
       userid,
       {$push: {"created": list._id}},

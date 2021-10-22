@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import { UserService } from '../shared/user.service';
 import { switchMap, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ListOfListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   
-  constructor(private listService:ListService,private userService:UserService) {  
+  constructor(private listService:ListService,private userService:UserService,private router:Router) {  
    this.userService.getListbyUserId(this.user).pipe(
      switchMap((res) =>{
        return this.listService.getListbyUser(res);
@@ -51,6 +52,11 @@ export class ListOfListComponent implements OnInit {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+  }
+
+  navigate(row:any){
+    this.listService.curList?.next(row);
+    this.router.navigate(['/listdetail']);
   }
 }
 

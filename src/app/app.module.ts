@@ -38,6 +38,7 @@ import { HttpConfigInterceptor } from './ inteceptors/httpconfig.interceptor';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ListComponent } from './list/list.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     AuthComponent,
     LoginComponent,
     RegisterComponent,
+    ListComponent,
  
   ],
   imports: [

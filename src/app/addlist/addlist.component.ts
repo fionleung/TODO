@@ -15,7 +15,7 @@ import { UserService } from '../shared/user.service';
 export interface taskinput{
   content :string,
     assignTo : string[],
-    idx:number
+    idx:number,
 }
 
 @Component({
@@ -143,7 +143,8 @@ submit(){
     tasks:tasklist,
     tags:this.tags,
     tasksnum:tasklist.length,
-    taskdone:0
+    taskdone:0,
+    deadline:this.deadline
    }
    let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
    this.userservice.addTags(this.user,newtags).subscribe(res=>{});

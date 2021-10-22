@@ -45,7 +45,7 @@ module.exports = (app) => {
             }, process.env.TOCKEN_SECRET, {
                expiresIn: 604800
             })
-            console.log("token created");
+
             return res.status(200).json({
                token: token,
                userCredentials: user
@@ -62,7 +62,11 @@ module.exports = (app) => {
    })
 
    app.get("/api/user/:id/tags",authenticateJWT, async (req, res) => {
+      let reqid=req.userData.user._id;
       let id=req.params.id;
+      if (id!=reqid) return res.status(500).json({
+         msg: "You could only access your data"
+      });
       User.findById(id,(error, data) => {
         if (error) {
           return next(error)
@@ -73,7 +77,11 @@ module.exports = (app) => {
     })
 
     app.post("/api/user/:id/tags",authenticateJWT, async (req, res) => {
+      let reqid=req.userData.user._id;
       let id=req.params.id;
+      if (id!=reqid) return res.status(500).json({
+         msg: "You could only access your data"
+      });
       User.findByIdAndUpdate(
          id,
          {tags: req.body},
@@ -86,8 +94,11 @@ module.exports = (app) => {
     })
 
     app.get("/api/user/:id/lists",authenticateJWT, async (req, res) => {
+      let reqid=req.userData.user._id;
       let id=req.params.id;
-      console.log(id);
+      if (id!=reqid) return res.status(500).json({
+         msg: "You could only access your data"
+      });
       User.findById(id,(error, data) => {
         if (error) {
          return res.status(500).json({
