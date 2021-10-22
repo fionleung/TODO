@@ -10,10 +10,11 @@ import {MatTable} from '@angular/material/table';
 import { TodoList } from '../model/list';
 import { ListService } from '../shared/list.service';
 import { UserService } from '../shared/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface taskinput{
-  content :String,
-    assignTo : String[],
+  content :string,
+    assignTo : string[],
     idx:Number,
     done:Boolean
 }
@@ -25,23 +26,23 @@ export interface taskinput{
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  id:String ="";
+  id = "";
   list!: TodoList;
   user = localStorage.getItem('TodoUserId')+"";
   //for title
   titlectrl = new FormControl('', [Validators.required]);
   //for tag
-  tagOp!: Observable<String[]>;
+  tagOp!: Observable<string[]>;
  separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
-  tagoptions: String[] = ['One', 'Two', 'Three'];
-  filteredTags!: Observable<String[]>;
-  tags: String[] = [];
-  allTags: String[]=[];
+  tagoptions: string[] = ['One', 'Two', 'Three'];
+  filteredTags!: Observable<string[]>;
+  tags: string[] = [];
+  allTags: string[]=[];
   @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
   //for share with
   peopleCtrl =  new FormControl('', [Validators.email]);
-  people: String[] = [];
+  people: string[] = [];
   //for date
   deadline:Date | undefined;
   //for tasklist
@@ -55,8 +56,14 @@ export class ListComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<taskinput>;
  displayedColumns: string[] = ["done",'task-content', 'task-person', 'task-remove'];
   
- constructor(private fb:FormBuilder, private listservice:ListService, private userservice:UserService) {
-  this.list=this.listservice.curList.value;
+ constructor(private listservice:ListService, 
+              private userservice:UserService,
+              private activeRoute:ActivatedRoute, 
+             private router:Router) {
+ 
+  this.id = this.activeRoute.snapshot.paramMap.get('id') || "";
+  this.listservice.getListbyId(this.id).subscribe(res=>{
+    this.list = res;
     this.titlectrl.setValue(this.list.title);
     this.tags=this.list.tags;
    // this.people=this.list.sharewith;
@@ -73,6 +80,10 @@ export class ListComponent implements OnInit {
         })
       })
     }
+  })
+ 
+   
+
    
      
    }
@@ -84,7 +95,7 @@ export class ListComponent implements OnInit {
  
  
  //for tags
-   add(event: MatChipInputEvent,arr:String[],ctrl:FormControl): void {
+   add(event: MatChipInputEvent,arr:string[],ctrl:FormControl): void {
      if(ctrl.valid){
        const value = (event.value || '').trim();
        if (value) {
@@ -95,7 +106,7 @@ export class ListComponent implements OnInit {
      }
    }
  
-   remove(tag: String,arr:String[]): void {
+   remove(tag: string,arr:string[]): void {
      const index = arr.indexOf(tag);
      if (index >= 0) {
        arr.splice(index, 1);
@@ -108,7 +119,7 @@ export class ListComponent implements OnInit {
      this.tagCtrl.setValue(null);
    }
  
-   private _filter(value: String): String[] {
+   private _filter(value: string): string[] {
      const filterValue = value.toUpperCase();
      return this.allTags.filter(tag => tag.toUpperCase().includes(filterValue));
    }
@@ -135,7 +146,9 @@ export class ListComponent implements OnInit {
  }
  
  update(){ 
+  let taskdonecount = 0;
    let tasklist = this.dataSource.reduce((acc:Task[],cur) => {
+   
       if(cur.content.length>0){
         let newitem:Task={
          creator : this.user,
@@ -145,6 +158,7 @@ export class ListComponent implements OnInit {
          done : cur.done,
          history:[]
          }
+         if(cur.done) taskdonecount++;
         return [...acc,newitem];
       }
        return acc;
@@ -157,15 +171,25 @@ export class ListComponent implements OnInit {
      tasks:tasklist,
      tags:this.tags,
      tasksnum:tasklist.length,
-     taskdone:0
+     taskdone:taskdonecount
     }
     let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
     this.userservice.addTags(this.user,newtags).subscribe(res=>{});
     if (this.deadline) newlist.deadline=this.deadline;
-    this.listservice.editList(this.id,newlist).subscribe(res =>{console.log(res)});
-   
-    
-    
+    this.listservice.editList(this.id,newlist).subscribe(res =>{
+      this.router.navigate(['/lists']);
+    });
+    //todo:catch error
  }
+
+ delete(){
+   this.listservice.deletebyId(this.id).subscribe(res =>{
+    this.router.navigate(['/lists']);
+     //todo:add comfirm ui
+  });
+ }
+
+
  }
  
+ //todo: move tag color to db

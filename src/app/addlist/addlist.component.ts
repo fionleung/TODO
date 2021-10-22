@@ -10,6 +10,7 @@ import {MatTable} from '@angular/material/table';
 import { TodoList } from '../model/list';
 import { ListService } from '../shared/list.service';
 import { UserService } from '../shared/user.service';
+import { Router } from '@angular/router';
 
 
 export interface taskinput{
@@ -29,7 +30,7 @@ export class AddlistComponent implements OnInit {
   //for title
   title = new FormControl('', [Validators.required]);
   //for tag
-  tagOp!: Observable<String[]>;
+  tagOp!: Observable<string[]>;
  separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl();
   tagoptions: string[] = ['One', 'Two', 'Three'];
@@ -55,7 +56,10 @@ export class AddlistComponent implements OnInit {
   displayedColumns: string[] = ['task-content', 'task-person', 'task-remove'];
   
 
-  constructor(private fb:FormBuilder, private listservice:ListService, private userservice:UserService) { 
+  constructor(private fb:FormBuilder, 
+    private listservice:ListService, 
+    private userservice:UserService,
+    private router:Router) { 
     //for tag
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -149,7 +153,9 @@ submit(){
    let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
    this.userservice.addTags(this.user,newtags).subscribe(res=>{});
    if (this.deadline) newlist.deadline=this.deadline;
-   this.listservice.addList(newlist).subscribe(res =>{console.log(res)});
+   this.listservice.addList(newlist).subscribe(res =>{
+     this.router.navigate(['/lists']);
+    });
   
    
    

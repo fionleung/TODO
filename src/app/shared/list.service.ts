@@ -9,7 +9,6 @@ import { MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY } from '@angular/material/tooltip';
 })
 export class ListService {
   private productsUrl = '/api/list';
-  curList= new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
  
@@ -22,15 +21,19 @@ export class ListService {
   }
   
   getListbyId(id:string){
-    return this.http.get<TodoList[]>(this.productsUrl+id);
+    return this.http.get<TodoList>(this.productsUrl+"/"+id);
   }
 
-  getListbyUser(id:String[]){
+  getListbyUser(id:string[]){
     return this.http.post<TodoList[]>(this.productsUrl+'/listforuser',id);
   }
 
-  editList(id:String,obj:any):Observable<any>{
+  editList(id:string,obj:any):Observable<any>{
     return this.http.put<TodoList[]>(this.productsUrl+"/"+id,obj);
+  }
+
+  deletebyId(id:string){
+    return this.http.delete<TodoList>(this.productsUrl+"/"+id);
   }
  
 }

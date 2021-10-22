@@ -1,16 +1,16 @@
 export interface Task {
-    creator:String;
+    creator:string;
     createdTime:Date;
-    content:String;
-    assignTo:String[];
+    content:string;
+    assignTo:string[];
     done:Boolean;
     history:History[];
 }
 
 export interface History {
     edit_time:Date;
-    edit_person:String;
-    content?:String;
-    assignTo?: String;
-    status?:String;
+    edit_person:string;
+    content?:string;
+    assignTo?: string;
+    status?:string;
 }

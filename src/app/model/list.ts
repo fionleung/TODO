@@ -2,15 +2,15 @@ import { Task } from "./task";
 
 export interface TodoList {
     createTime: Date;
-    creator: String;
-    sharewith?:String[];
-    title:String;
+    creator: string;
+    sharewith?:string[];
+    title:string;
     tasks?:Task[];
     deadline?:Date;
-    tags:String[];
+    tags:string[];
     tasksnum:Number;
     taskdone:Number;
-    _id?:String;
+    _id?:string;
     
 
 }

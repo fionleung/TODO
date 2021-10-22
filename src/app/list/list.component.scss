@@ -36,6 +36,13 @@ button{
         display: none;
     }
 
+    div {
+        button{
+        width: 60px;
+        height:20px;
+    }
+}
+
     @media (max-width: 1000px) {
         background: transparent;
         .mat-header-row {

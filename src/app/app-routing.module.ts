@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'notification', component: notificationComponent},
   { path: 'addlist', component: AddlistComponent },
   { path: 'auth', component: AuthComponent },
-  { path: 'listdetail', component: ListComponent },
+  { path: 'listdetail/:id', component: ListComponent },
 ];
 
 @NgModule({

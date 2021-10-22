@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {  Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,15 +25,15 @@ export class UserService {
   }
 
   getTags(id:string):Observable<any>{
-    return this.http.get<String[]>('/api/user/'+id+'/tags');
+    return this.http.get<string[]>('/api/user/'+id+'/tags');
   }
 
-  addTags(id:string,payload:String[]):Observable<any>{
+  addTags(id:string,payload:string[]):Observable<any>{
     return this.http.post('/api/user/'+id+'/tags',payload);
   }
 
-  getListbyUserId(id:any):Observable<String[]>{
-    return this.http.get<String[]>("/api/user/"+id+"/lists");
+  getListbyUserId(id:any):Observable<string[]>{
+    return this.http.get<string[]>("/api/user/"+id+"/lists");
   }
 }
 

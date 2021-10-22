@@ -24,7 +24,7 @@
             color="Primary"
              mode="determinate"
              [value]="element.taskdone/element.tasksnum*100+''"></mat-progress-bar>
-             {{element.taskdone/element.tasksnum*100}}%
+             {{round(element.taskdone/element.tasksnum*100)}}%
         </div>
              </td>
       </ng-container>
@@ -36,7 +36,7 @@
       (click)="navigate(row)"></tr>
     </table>
   
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [pageSizeOptions]="[10, 20, 50]"
                    showFirstLastButtons 
                    aria-label="Select page of  elements">
     </mat-paginator>

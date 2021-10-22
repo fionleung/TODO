@@ -4,7 +4,7 @@ import { TodoList } from '../model/list';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import { UserService } from '../shared/user.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 
@@ -55,8 +55,12 @@ export class ListOfListComponent implements OnInit {
   }
 
   navigate(row:any){
-    this.listService.curList?.next(row);
-    this.router.navigate(['/listdetail']);
+   
+    this.router.navigate(['/listdetail',row._id]);
+  }
+
+  round(num:number){
+    return Math.floor(num);
   }
 }
 
