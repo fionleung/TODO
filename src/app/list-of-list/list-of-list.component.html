@@ -1,5 +1,32 @@
 <!-- <p *ngFor= "let list of lists$ | async">{{list.title}}</p> -->
+<div class="search-container">
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Search by title</mat-label>
+      <input matInput placeholder="Search by title" [formControl]="search" (keyup.enter)="OnEnter()"/>
+    </mat-form-field>
+    <mat-chip-list aria-label="tags">
+      <mat-chip *ngFor ="let tag of tagOptions"   
+                
+                (click)="addTag(tag)"
+                [ngStyle]="{'background-color': allTagsMap.get(tag),'color':'white'}">
+                {{tag |uppercase}}</mat-chip>
+    </mat-chip-list>
+</div>
 <div class="table-container">
+  <div class="selected">
+    Search results for tags:
+    <mat-chip-list aria-label="tags">
+      <mat-chip *ngFor ="let tag of selectedTags" 
+          [ngStyle]="{'background-color': allTagsMap.get(tag),'color':'white'}"
+          removable =true
+          (removed)="removeTag(tag)"
+          >{{tag | uppercase}}
+          <button matChipRemove >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+    </mat-chip-list>
+  </div>
     <table mat-table [dataSource]="dataSource">
   
       <!-- Position Column -->

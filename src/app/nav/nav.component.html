@@ -1,14 +1,15 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
+  <mat-sidenav #drawer class="sidenav" 
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+      [opened]="(isHandset$ | async) === false"
+      >
     <!-- <mat-toolbar>Menu</mat-toolbar> -->
     <mat-nav-list>
       <!-- <a mat-list-item routerLink="/" routerLinkActive="active">HOME</a>
       <a mat-list-item routerLink="/notification" routerLinkActive="active">NOTIFICATION</a> -->
       <a mat-list-item routerLink="/lists" routerLinkActive="active">TODO LISTS</a>
-      <a mat-list-item routerLink="/addlist" routerLinkActive="active">+ NEW LIST</a>
+      <a mat-list-item routerLink="/lists/addlist" routerLinkActive="active">+ NEW LIST</a>
       <a mat-list-item (click)=logout()>LOG OUT </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -27,3 +28,4 @@
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
+

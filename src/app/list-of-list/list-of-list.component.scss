@@ -1,7 +1,7 @@
 
-.table-container{
+
+.table-container, .search-container{
     margin:40px 10vw;
-   
 }
 .mat-table{
     width: 100%;
@@ -24,6 +24,10 @@
     cursor:pointer;
   }
 
+  .selected{
+      margin-top:30px;
+  }
+
   @media (max-width: 500px) {
      
       .table-container{
@@ -34,5 +38,4 @@
           padding:0 2px;
       }
    
-
 }

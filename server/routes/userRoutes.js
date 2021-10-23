@@ -38,19 +38,22 @@ module.exports = (app) => {
       const { email, password } = req.body;
       try {
          const user = await User.findOne({ email: email});
-         let match=await bcrypt.compare(password, user.password)
-         if (user && match) {
-            let token = await jwt.sign({
-               user
-            }, process.env.TOCKEN_SECRET, {
-               expiresIn: 604800
-            })
-
-            return res.status(200).json({
-               token: token,
-               userCredentials: user
-            });
-         } else {
+         if(user){
+            let match=await bcrypt.compare(password, user.password)
+            if (user && match) {
+               let token = await jwt.sign({
+                  user
+               }, process.env.TOCKEN_SECRET, {
+                  expiresIn: 604800
+               })
+   
+               return res.status(200).json({
+                  token: token,
+                  userCredentials: user
+               });
+            } 
+         }
+         else {
             return res.status(400).send({ msg: 'Username or password incorrect' });
          }
       } catch (err) {
@@ -67,6 +70,7 @@ module.exports = (app) => {
       if (id!=reqid) return res.status(500).json({
          msg: "You could only access your data"
       });
+     
       User.findById(id,(error, data) => {
         if (error) {
           return next(error)

@@ -69,7 +69,10 @@ export class AddlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   this.userservice.getTags(this.user).subscribe(res=>{this.allTags=res});
+   this.userservice.getTags(this.user).subscribe(res=>{
+     this.allTags=res;
+    });
+   
   } 
 
 
@@ -124,7 +127,12 @@ this.table.renderRows();
 }
 
 submit(){
-  
+  this.tags = this.tags.map(x=>x.toUpperCase());
+  this.tags= this.tags.reduce((prev:string[],cur)=>{
+      if (!prev.includes(cur)) 
+      prev.push(cur); 
+      return prev;
+    },[]);
   let tasklist = this.dataSource.reduce((acc:Task[],cur) => {
      if(cur.content.length>0){
        let newitem:Task={
@@ -150,7 +158,7 @@ submit(){
     taskdone:0,
     deadline:this.deadline
    }
-   let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
+    let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0));
    this.userservice.addTags(this.user,newtags).subscribe(res=>{});
    if (this.deadline) newlist.deadline=this.deadline;
    this.listservice.addList(newlist).subscribe(res =>{

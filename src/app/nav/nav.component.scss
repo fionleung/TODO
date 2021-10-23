@@ -1,3 +1,6 @@
+@import "~@angular/material/theming";
+$primaryPalette: mat-palette($mat-indigo);
+
 .sidenav-container {
   height: 100%;
 }
@@ -12,6 +15,10 @@ mat-nav-list{
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
+  .mat-list-item {
+    color:mat-color($primaryPalette);
+    font-weight: 400;
+  }
 }
 
 .sidenav .mat-toolbar {

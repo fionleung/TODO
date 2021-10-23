@@ -8,24 +8,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule,ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatTableModule} from '@angular/material/table';
-import {MatCardModule} from '@angular/material/card';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
-
 import { ListOfListComponent } from './list-of-list/list-of-list.component';
 import { HomeComponent } from './home/home.component';
 import { notificationComponent } from './notification/notification.component';
@@ -35,11 +17,8 @@ import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HttpConfigInterceptor } from './ inteceptors/httpconfig.interceptor';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { ListComponent } from './list/list.component';
-
+import { AngularMaterialModule } from './shared/angular-material.module';
+import { LogoutConfirmComponent } from './nav/logout-confirm/logout-confirm.component';
 
 @NgModule({
   declarations: [
@@ -52,8 +31,8 @@ import { ListComponent } from './list/list.component';
     AuthComponent,
     LoginComponent,
     RegisterComponent,
-    ListComponent,
- 
+    LogoutConfirmComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -62,28 +41,10 @@ import { ListComponent } from './list/list.component';
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
-
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDividerModule,
-    MatTableModule,
-    MatCardModule,
-    MatSnackBarModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressBarModule
+    BrowserAnimationsModule, 
    
+    AngularMaterialModule 
+  
     
   ],
   providers: [{

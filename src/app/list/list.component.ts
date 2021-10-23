@@ -66,6 +66,9 @@ export class ListComponent implements OnInit {
     this.list = res;
     this.titlectrl.setValue(this.list.title);
     this.tags=this.list.tags;
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
    // this.people=this.list.sharewith;
     this.deadline=this.list.deadline;
     if(this.list._id) this.id=this.list._id;
@@ -81,16 +84,14 @@ export class ListComponent implements OnInit {
       })
     }
   })
- 
-   
-
-   
-     
+      
    }
 
   
    ngOnInit(): void {
-    this.userservice.getTags(this.user).subscribe(res=>{this.allTags=res});
+    this.userservice.getTags(this.user).subscribe(res=>{
+      this.allTags=res;
+    });
    } 
  
  
@@ -148,7 +149,12 @@ export class ListComponent implements OnInit {
  update(){ 
   let taskdonecount = 0;
    let tasklist = this.dataSource.reduce((acc:Task[],cur) => {
-   
+    this.tags = this.tags.map(x=>x.toUpperCase());
+    this.tags= this.tags.reduce((prev:string[],cur)=>{
+        if (!prev.includes(cur)) 
+        prev.push(cur); 
+        return prev;
+      },[]);
       if(cur.content.length>0){
         let newitem:Task={
          creator : this.user,
@@ -173,7 +179,8 @@ export class ListComponent implements OnInit {
      tasksnum:tasklist.length,
      taskdone:taskdonecount
     }
-    let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0))
+    
+    let newtags = this.allTags.concat(this.tags.filter((item) => this.allTags.indexOf(item) < 0));
     this.userservice.addTags(this.user,newtags).subscribe(res=>{});
     if (this.deadline) newlist.deadline=this.deadline;
     this.listservice.editList(this.id,newlist).subscribe(res =>{

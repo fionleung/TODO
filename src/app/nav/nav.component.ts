@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutConfirmComponent } from './logout-confirm/logout-confirm.component';
 
 @Component({
   selector: 'app-nav',
@@ -17,9 +19,11 @@ export class NavComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router,private dialog: MatDialog) {}
   logout() {
-    localStorage.removeItem("TodoToken");
-    this.router.navigate(['/auth']);
+    const dialogRef = this.dialog.open(LogoutConfirmComponent);
+  }
+   // localStorage.removeItem("TodoToken");
+   // this.router.navigate(['/auth']);
 }
-}
+

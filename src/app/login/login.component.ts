@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
@@ -13,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
-    email: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('')
   });
   constructor(private userService: UserService, private router: Router,private snackBar: MatSnackBar) { }
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   }
  
   loginUser(){
+    console.log(this.loginForm.value);
     if ( this.loginForm.valid ){
       this.userService.login(this.loginForm.value).subscribe(
         (data: any) => {
