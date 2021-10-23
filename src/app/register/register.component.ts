@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MustMatch } from './matchpwd.validators';
+
 
 @Component({
   selector: 'app-register',
@@ -11,25 +13,34 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  
-  signupForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    name: new FormControl(''),
-    password: new FormControl(''),
-    password2: new FormControl('')
-  });
-  password=this.signupForm.get("password");
-  password2=this.signupForm.get("password2");
-  constructor(private userService:UserService,private router: Router,private snackBar: MatSnackBar) {
-    
+      signupForm!:FormGroup;
+   
+  constructor(private userService:UserService,private router: Router,private snackBar: MatSnackBar,private fb:FormBuilder) {
+
    }
 
   ngOnInit(): void {
-  }
+    this.signupForm = this.fb.group({
+      email: ['', Validators.required],
+      name: ['', Validators.required],
+      pwd: this.fb.group({
+        password: ['', [Validators.required, Validators.minLength(3)]],
+        password2: ['', Validators.required]
+    }, {
+        validator: MustMatch('password', 'password2')
+    })
+  });
+   
+}
+  
 
  createUser(){
    if(this.signupForm.valid){
-    this.userService.createNewUser(this.signupForm.value).subscribe(
+    this.userService.createNewUser({
+      name:this.signupForm.value.name,
+      email:this.signupForm.value.email,
+      password:this.signupForm.value.pwd.password,
+    }).subscribe(
       (data: any) => {
         this.userService.setUserDate(data);
         this.router.navigate([ '/' ]);
@@ -50,4 +61,3 @@ export class RegisterComponent implements OnInit {
 
 }
 
-//todo:input validation

@@ -17,17 +17,19 @@
               <mat-error>Please enter a vaild email</mat-error>
             </mat-form-field>
             <br>
+            <div formGroupName="pwd">
             <mat-form-field style="width: 100%;">
                 <mat-label>Password</mat-label>
-                <input matInput #p1 formControlName="password" type="password" required>
-                <mat-error>Please enter a password</mat-error>
+                <input matInput formControlName="password" type="password" required>
+                <mat-error>password length must includes more than 3 characters</mat-error>
               </mat-form-field>
             <br>
             <mat-form-field style="width: 100%;">
               <mat-label>Confirm Password</mat-label>
-              <input matInput #p2 formControlName="password2" type="password" required>
-              <mat-error *ngIf="p1!=p2">Please enter a password</mat-error>
+              <input matInput formControlName="password2" type="password" required>
+              <mat-error>Passwords are not matched</mat-error>
             </mat-form-field>
+          </div>
             <br>
             <button mat-raised-button color="primary">Submit</button>
           </form>
