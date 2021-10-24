@@ -10,12 +10,14 @@ module.exports = (app) => {
       try {
          let user = new User({
             name: req.body.name,
-            email: req.body.email
+            email: req.body.email,
+            role : req.body.role
          })
          user.password = await bcrypt.hashSync(req.body.password, 10);
          let createdUser = await User.create(user);
          let token = await jwt.sign({
-            user
+            id:createdUser._id,
+            role:createdUser.role
          }, process.env.TOCKEN_SECRET, {
             expiresIn: 604800
          })
@@ -23,7 +25,6 @@ module.exports = (app) => {
             return res.status(200).json({
                msg: "New user created",
                token: token,
-               userCredentials: createdUser
             })
          }
       } catch (err) {
@@ -42,14 +43,14 @@ module.exports = (app) => {
             let match=await bcrypt.compare(password, user.password)
             if (user && match) {
                let token = await jwt.sign({
-                  user
+                  id:user._id,
+                  role:user.role
                }, process.env.TOCKEN_SECRET, {
                   expiresIn: 604800
                })
    
                return res.status(200).json({
                   token: token,
-                  userCredentials: user
                });
             } 
          }
@@ -65,7 +66,7 @@ module.exports = (app) => {
    })
 
    app.get("/api/user/:id/tags",authenticateJWT, async (req, res) => {
-      let reqid=req.userData.user._id;
+      let reqid=req.userData.id;
       let id=req.params.id;
       if (id!=reqid) return res.status(500).json({
          msg: "You could only access your data"
@@ -98,7 +99,7 @@ module.exports = (app) => {
     })
 
     app.get("/api/user/:id/lists",authenticateJWT, async (req, res) => {
-      let reqid=req.userData.user._id;
+      let reqid=req.userData.id;
       let id=req.params.id;
       if (id!=reqid) return res.status(500).json({
          msg: "You could only access your data"

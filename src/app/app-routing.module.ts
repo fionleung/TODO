@@ -6,6 +6,8 @@ import { AddlistComponent } from './addlist/addlist.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NavComponent } from './nav/nav.component';
+import { FriendsComponent } from './friends/friends.component';
+import { RoleGuard } from './guard/role.guard';
 
 
 
@@ -17,7 +19,12 @@ const routes: Routes = [
     { path: 'notification', component: notificationComponent},
     { path: 'addlist',canActivate: [ AuthGuard ],component: AddlistComponent },
     { path: 'listdetail', loadChildren: () => import('./list/detail.module').then((m) => m.DetailModule)}
-  ] }
+  ] },
+  { path: 'admin', component: FriendsComponent, canActivate: [RoleGuard], 
+   data: { 
+      expectedRole: 'admin'
+    } 
+  },
  
 ];
 

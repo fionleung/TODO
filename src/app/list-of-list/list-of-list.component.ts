@@ -20,7 +20,7 @@ export class ListOfListComponent implements OnInit {
   selectedTags:string[]=[];
   search=new FormControl();
   $serchtag = new Subject();
-  user = localStorage.getItem('TodoUserId')+"";
+  user = this.userService.curUser.id;
   wholelist:TodoList[] = [];
   displayedColumns: string[] = ['title', 'tags', 'progress'];
   dataSource = new MatTableDataSource<TodoList>();
@@ -29,6 +29,8 @@ export class ListOfListComponent implements OnInit {
 
   
   constructor(private listService:ListService,private userService:UserService,private router:Router) {  
+    this.userService.decodeToken();
+    this.user = this.userService.curUser.id;
    this.userService.getListbyUserId(this.user).pipe(
      switchMap((res) =>{
        return this.listService.getListbyUser(res);
@@ -105,11 +107,6 @@ export class ListOfListComponent implements OnInit {
   }
 
   hasDuplicate(a:string[],b:string[]){
-    // for(let elea of a)
-    //    for(let eleb of b)
-    //    if(elea===eleb){
-    //     return true;
-    //    }
     let obj=new Map();
         for (let i = 0; i < a.length; i++) {
                 obj.set(a[i],true);

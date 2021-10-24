@@ -28,7 +28,7 @@ export interface taskinput{
 export class ListComponent implements OnInit {
   id = "";
   list!: TodoList;
-  user = localStorage.getItem('TodoUserId')+"";
+  user = this.userservice.curUser.id;
   //for title
   titlectrl = new FormControl('', [Validators.required]);
   //for tag

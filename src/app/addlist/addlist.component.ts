@@ -26,7 +26,7 @@ export interface taskinput{
  // encapsulation: ViewEncapsulation.None
 })
 export class AddlistComponent implements OnInit {
-  user = localStorage.getItem('TodoUserId')+"";
+  user = this.userservice.curUser.id;
   //for title
   title = new FormControl('', [Validators.required]);
   //for tag
@@ -127,6 +127,7 @@ this.table.renderRows();
 }
 
 submit(){
+  console.log(localStorage.getItem('TodoToken'));
   this.tags = this.tags.map(x=>x.toUpperCase());
   this.tags= this.tags.reduce((prev:string[],cur)=>{
       if (!prev.includes(cur)) 

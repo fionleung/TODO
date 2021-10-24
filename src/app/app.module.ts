@@ -19,6 +19,7 @@ import { RegisterComponent } from './register/register.component';
 import { HttpConfigInterceptor } from './ inteceptors/httpconfig.interceptor';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { LogoutConfirmComponent } from './nav/logout-confirm/logout-confirm.component';
+import { FriendsComponent } from './friends/friends.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { LogoutConfirmComponent } from './nav/logout-confirm/logout-confirm.comp
     LoginComponent,
     RegisterComponent,
     LogoutConfirmComponent,
+    FriendsComponent,
    
   ],
   imports: [

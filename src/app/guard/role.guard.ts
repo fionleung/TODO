@@ -6,12 +6,13 @@ import { UserService } from '../shared/user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(private router: Router,private userService: UserService) {}
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const expectedRole = route.data.expectedRole;
     this.userService.decodeToken();
-    if(this.userService.curUser.id !=="") return true;
-      this.router.navigate([ '/auth' ]);
+    if(this.userService.curUser.role=== expectedRole) return true;
+    this.router.navigate([ '/' ]);
     return false;
   }
   

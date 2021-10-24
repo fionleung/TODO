@@ -17,7 +17,7 @@ module.exports = (app) => {
   });
 
   app.put(`/api/list/:id`,authenticateJWT,async (req, res) => {
-    let reqid = req.userData.user._id;
+    let reqid = req.userData.id;
     let userid = req.body.creator;
     if (userid!=reqid) return res.status(500).json({
       msg: "You could only access your data"
@@ -28,13 +28,18 @@ module.exports = (app) => {
   });
 
   app.post(`/api/list/listforuser`,authenticateJWT, async (req, res) => {
-    let reqid=req.userData.user._id;
+    let reqid=req.userData.id;
     let lists = await List.find({_id:{"$in":req.body},creater:reqid},'title tasksnum taskdone tags').sort({$natural:-1});
     return res.status(200).send(lists);
   });
   
   app.post(`/api/list`, authenticateJWT, async (req, res) => {
+    
+    let reqid = req.userData.id;
     let userid = req.body.creator;
+    if (userid!=reqid) return res.status(500).json({
+      msg: "You could only access your data"
+   });
     let list = await List.create(req.body);
      user.findByIdAndUpdate(
       userid,
@@ -44,7 +49,6 @@ module.exports = (app) => {
           console.log(err);
       }
   );
-   
     return res.status(201).send({
       error: false,
       list
@@ -63,7 +67,7 @@ module.exports = (app) => {
 
   app.delete(`/api/list/:id`, async (req, res) => {
     const {id} = req.params;
-   console.log("deleted");
+   
     let list = await List.findByIdAndDelete(id);
     user.findByIdAndUpdate(
       list.creator,

@@ -40,14 +40,14 @@ export class RegisterComponent implements OnInit {
       name:this.signupForm.value.name,
       email:this.signupForm.value.email,
       password:this.signupForm.value.pwd.password,
+      role:"user"
     }).subscribe(
       (data: any) => {
         this.userService.setUserDate(data);
-        this.router.navigate([ '/' ]);
+         this.router.navigate([ '/' ]);
       },
       (err: HttpErrorResponse) => {
         if (err.error.error.message) {
-          
           this.snackBar.open(err.error.error.message);
         } else {
           this.snackBar.open('Something Went Wrong!');

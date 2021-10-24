@@ -2,6 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user';
 import {  Observable } from 'rxjs';
+import jwt_decode from "jwt-decode"
+import { EmailValidator } from '@angular/forms';
 
 
 @Injectable({
@@ -10,6 +12,10 @@ import {  Observable } from 'rxjs';
 
 export class UserService {
   color:string[] =[];
+  curUser= {
+    role:"",
+    id:"",
+  };
   constructor(private http: HttpClient) {
    }
 
@@ -23,8 +29,17 @@ export class UserService {
 
   setUserDate(data:any){
     localStorage.setItem('TodoToken', data.token);
-    localStorage.setItem('TodoUserName', data.userCredentials.name);
-    localStorage.setItem('TodoUserId', data.userCredentials._id);
+  }
+
+  decodeToken(){
+     let token= localStorage.getItem('TodoToken');
+     if(token){
+      let obj:any=jwt_decode(token);
+       this.curUser ={
+          role:obj.role,
+           id:obj.id
+       };
+     }
   }
 
   getTags(id:string):Observable<any>{

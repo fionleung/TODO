@@ -19,6 +19,7 @@ const userSchema = new Schema({
     },
     tags:[String],
    created:[ObjectId],
+   role:String,
 
 });
 
@@ -26,3 +27,5 @@ module.exports = mongoose.model("User", userSchema);
 userSchema.plugin(uniqueValidator, {
     message: '{PATH} Already in use'
 });
+
+//use asyn validator instead https://medium.com/@rinciarijoc/angular-custom-async-validators-13a648d688d8
